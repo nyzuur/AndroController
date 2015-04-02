@@ -14,4 +14,10 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>adb</name>
+			<value>file:/C:/Users/User/workspace</value>
+		</variable>
+	</variableList>
 </projectDescription>
