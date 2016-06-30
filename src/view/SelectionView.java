@@ -1,3 +1,19 @@
+
+/*
+ * Copyright (C) 2015  Niyazi Uður
+ * 
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version 2
+ *		of the License, or (at your option) any later version.
+ *		
+ *		This program is distributed in the hope that it will be useful,
+ *		but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *		GNU General Public License for more details.
+ */
+
+
 package view;
 
 import java.awt.BorderLayout;
@@ -32,12 +48,14 @@ public class SelectionView extends JFrame implements MouseListener {
 	private JButton btnRefresh;
 	private IDevice[] devices;
 	private ADB adb;
+	private MainView mainView;
 	/**
 	 * Create the frame.
 	 */
-	public SelectionView(ADB adb) {
+	public SelectionView(ADB adb, MainView v) {
 		this.adb = adb;
 		this.devices = adb.getDevices();
+		this.mainView=v;
 		setTitle("AndroController");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -46,7 +64,7 @@ public class SelectionView extends JFrame implements MouseListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(249dlu;default):grow"),},
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -70,19 +88,24 @@ public class SelectionView extends JFrame implements MouseListener {
 		
 		btnRefresh = new JButton("Yenile");
 		contentPane.add(btnRefresh, "2, 6, left, default");
+		btnRefresh.addMouseListener(this);
 		
 		btnConnect = new JButton("Ba\u011Flan");
-		contentPane.add(btnConnect, "2, 8, right, default");
+		contentPane.add(btnConnect, "2, 8, center, default");
+		btnConnect.addMouseListener(this);
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource() == btnConnect){
-			
+			if(comboBox.getSelectedIndex() != -1){
+				mainView.switchToMainView(devices[comboBox.getSelectedIndex()]);
+			}
 			
 		}else if(e.getSource()==btnRefresh){
 			devices = adb.getDevices();
+			comboBox.removeAllItems();
 			for(IDevice device : devices){
 				comboBox.addItem(device.getSerialNumber());
 			}

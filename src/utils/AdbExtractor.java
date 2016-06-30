@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2015  Niyazi Uður
+ * 
+ *		This program is free software; you can redistribute it and/or
+ *		modify it under the terms of the GNU General Public License
+ *		as published by the Free Software Foundation; either version 2
+ *		of the License, or (at your option) any later version.
+ *		
+ *		This program is distributed in the hope that it will be useful,
+ *		but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *		GNU General Public License for more details.
+ */
+
+
 package utils;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,11 +27,11 @@ import utils.Log;
 import utils.OperatingSystemSpecifier;
 import view.MainView;
 
-
 public class AdbExtractor {
 		
 		static JarFile jar=null;
 		static File adbLocation = null;
+		static File aslLocation = null;
 		
 		
 	public static void main (String args[]) throws Exception{
@@ -30,7 +45,8 @@ public class AdbExtractor {
 				
 				OperatingSystemSpecifier.OperatingSystems os = OperatingSystemSpecifier.getOperatingSystem();
 				ZipEntry entry;
-				String dest = System.getProperty("user.home") + File.separatorChar + "adb";
+				String userHome = System.getProperty("user.home");
+				String dest = userHome + File.separatorChar + "adb";
 				
 				switch (os) {
 				case Linux:
@@ -62,11 +78,15 @@ public class AdbExtractor {
 				 * START GUI
 				 * 
 				 */
-				ADB adb = new ADB(adbLocation.getPath());
+				ADB adb = new ADB(adbLocation.getAbsolutePath());
+			
 				new MainView(adb);
 			}
 		}else {
-			ADB adb = new ADB(new File(System.getProperty("user.home") + File.separatorChar + "adb" + File.separatorChar + "adb.exe").getPath());
+			adbLocation = new File(System.getProperty("user.home") + File.separatorChar + "adb" + File.separatorChar + "adb.exe");
+			
+			ADB adb = new ADB(adbLocation.getAbsolutePath());
+			
 			new MainView(adb);
 		}
 		
