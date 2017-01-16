@@ -1,6 +1,8 @@
 # AndroController
-This is the Open Source Android device controller for cross platform use
+Open Source Android device controller for cross platform use
 
-work in progress
+Work in progress
 
-limitation not yet solved 
+limitations not yet solved 
+
+
